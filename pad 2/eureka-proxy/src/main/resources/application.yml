@@ -1,0 +1,28 @@
+server:
+  port: 8088
+
+spring:
+  application:
+    name: gateway-app
+  cloud:
+    gateway:
+      routes:
+        - id: route1
+          # where we send traffic
+          # lb - Load Balancer (default algorithm is round Robin)
+          # eureka-client - spring.application.name of the application
+          # override the algorithm to do PUT, DELETE, POST on master instance and GET from slave instance
+          uri: lb://master
+          predicates:
+            - Method=PUT,DELETE,POST
+            - Path=/product/**
+          filters:
+            - RewritePath=/product,/api/product
+        - id: route2
+          uri: lb://slave
+          predicates:
+            - Method=GET
+            - Path=/product/**
+          filters:
+            - RewritePath=/product/(?<segment>.*),/api/product/$\{segment}
+
