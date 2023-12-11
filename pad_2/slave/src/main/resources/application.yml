@@ -2,8 +2,8 @@ spring:
   application:
     name: master
   datasource:
-    url: jdbc:postgresql://localhost:5433/test1
-    username: postgres
-    password: postgres
+    url: padlab03.database.windows.net
+    username: Postgres1!
+    password: Postgres1!
 server:
   port: 8090
